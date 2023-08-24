@@ -1,61 +1,50 @@
-from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey, Boolean, Text
-from sqlalchemy.orm import sessionmaker, declarative_base
-
-engine = create_engine("postgresql+psycopg2://joan:admin@localhost:5432/EPIC", echo=True)
-
-Session = sessionmaker(bind=engine)
-session = Session()
-
-Base = declarative_base()
-
-class Client(Base):
-    __tablename__ = 'client'
-
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String(20))
-    last_name = Column(String(20))
-    email = Column(String(25), nullable=False)
-    phone_number = Column(Integer)
-    compagny_name = Column(String(25))
-    date_created = Column(Date)
-    date_updated = Column(Date)
-    sales_contact = Column(ForeignKey("usermanager.id"))
-
-    def __repr__(self):
-        return f"{self.first_name} {self.email} {self.phone_number}"
+from django.db import models
+from users.models import User
 
 
-class Contract(Base):
-    __tablename__ = "contract"
 
-    id = Column(Integer, primary_key=True)
-    client_id = Column(ForeignKey("client.id"))
-    sales_contact_id = Column(Integer)
-    total_amount = Column(Float)
-    remaining_amount = Column(Float)
-    date_created = Column(Date)
-    contract_status = Column(Boolean)
+class Client(models.Model):
 
-    def __repr__(self):
-        return f"{self.client_id} {self.date_created} {self.contract_status}"
+    first_name = models.CharField()
+    last_name = models.CharField()
+    email = models.EmailField()
+    phone_number = models.CharField()
+    compagny_name = models.CharField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+    sales_contact = models.ForeignKey(User, on_delete=models.CASCADE, related_name="clients")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} {self.compagny_name} - contact: {self.sales_contact.username}"
 
 
-class Event(Base):
-    __tablename__ = "event"
+class Contract(models.Model):
 
-    id = Column(Integer, primary_key=True)
-    title = Column(String(25))
-    contract_id = Column(ForeignKey("contract.id"))
-    client_name = Column(String(20))
-    client_contact = Column(String(20))
-    event_date_start = Column(Date)
-    event_date_end = Column(Date)
-    support_contact = Column(String(25))
-    location = Column(String(25))
-    attendees = Column(Integer)
-    notes = Column(String(300))
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="contract_client")
+    sales_contact = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contract_sailor")
+    total_amount = models.FloatField(blank=True)
+    remaining_amount = models.FloatField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+    contract_status = models.BooleanField(verbose_name="signed", default=False)
 
-    def __repr__(self):
-        return f"{self.title} {self.event_date_end} {self.location}"
+    def __str__(self):
+        return f"Contrat:{self.id} - Client:{self.client.id}{self.client.last_name} - Contact:{self.sales_contact.username}"
+
+
+class Event(models.Model):
+
+    title = models.CharField(null=False)
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, related_name="event")
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="event_client")
+    client_contact = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="email_client")
+    event_date_start = models.DateTimeField()
+    event_date_end = models.DateTimeField()
+    support_contact = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_support")
+    location = models.CharField()
+    attendees = models.IntegerField()
+    notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Contrat:{self.contract.id} - Client:{self.client.last_name} - Contact:{self.support_contact.username}"
     
-Base.metadata.create_all(engine)
