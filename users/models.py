@@ -17,6 +17,5 @@ class User(AbstractUser):
     role = models.CharField(choices=ROLE_CHOICES, null=False)
 
 
-
     def __str__(self):
         return f"{self.username} - {self.role}"

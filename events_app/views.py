@@ -14,11 +14,11 @@ class ClientView(ModelViewSet):
 
 
     def get_queryset(self):
-        if self.request.user.role == "SUP":
-            return Client.objects.filter(sales_contact=self.request.user)
-        elif self.request.user.role == "SAL":
-            return Client.objects.filter(support_contact=self.request.user)
-        else:
+        # if self.request.user.role == "SUP":
+        #     return Client.objects.filter(sales_contact=self.request.user)
+        # elif self.request.user.role == "SAL":
+        #     return Client.objects.filter(support_contact=self.request.user)
+        # else:
             return Client.objects.all()
     
     def perform_create(self, serializer):
@@ -38,11 +38,11 @@ class ContractView(ModelViewSet):
     # filterset_fields = ['contract_status', 'remaining_amount', 'date_created']
 
     def get_queryset(self):
-        if self.request.user.role == "SUP":
-            return Contract.objects.filter(sales_contact=self.request.user)
-        elif self.request.user.role == "SAL":
-            return Contract.objects.filter(support_contact=self.request.user)
-        else:
+        # if self.request.user.role == "SUP":
+        #     return Contract.objects.filter(sales_contact=self.request.user)
+        # elif self.request.user.role == "SAL":
+        #     return Contract.objects.filter(support_contact=self.request.user)
+        # else:
             return Contract.objects.all()
 
     def perform_create(self, serializer):
@@ -61,11 +61,11 @@ class EventView(ModelViewSet):
     # filterset_fields = ['fisrt_name', 'last_name', 'company_name']
 
     def get_queryset(self):
-        if self.request.user.role == "SUP":
-            return Event.objects.filter(sales_contact=self.request.user)
-        elif self.request.user.role == "SAL":
-            return Event.objects.filter(support_contact=self.request.user)
-        else:
+        # if self.request.user.role == "SUP":
+        #     return Event.objects.filter(sales_contact=self.request.user)
+        # elif self.request.user.role == "SAL":
+        #     return Event.objects.filter(support_contact=self.request.user)
+        # else:
             return Event.objects.all()
     
     def perform_create(self, serializer):

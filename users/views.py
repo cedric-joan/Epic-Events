@@ -1,13 +1,23 @@
 from .models import User
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView
-from users.serializers import UserSerializer
+from users.serializers import SignupSerializer, EmployeeSerializer
 
-class UserViewSet(CreateAPIView):
 
-    serializer_class = UserSerializer
+class SignupViewSet(CreateAPIView):
+
+    serializer_class = SignupSerializer
 
     def get_queryset(self):
         return User.objects.all()
-    
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
+
+
+class EmployeeViewSet(ModelViewSet):
+
+    serializer_class = EmployeeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['role']
+
+    def get_queryset(self):
+        return User.objects.all()
