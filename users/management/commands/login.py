@@ -1,14 +1,20 @@
-from typing import Any, Optional
-from django.core.management.base import BaseCommand, CommandParser
-
+from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 class Command(BaseCommand):
+    help = 'Log in to the application'
 
+    def handle(self, *args, **kwargs ):
+        username = input('username: ')
+        password = input('password: ')
 
-    def add_arguments(self, parser: CommandParser):
-        parser.add_argument("--name", type=str, help="le nom de l'utilisateur ne doit pas dépasser 30 caractères")
+        user = User.objects.filter(username=username).first()
+        if user and user.check_password(password):
+            token = Token.objects.get_or_create(user=user)
+            self.stdout.write(self.style.SUCCESS(f'Logged in as {username}'))
+            self.stdout.write(f'Your acces token is: {token.key}')
+        else:
+            self.stdout.write(self.style.ERROR('Authentication failed'))
 
-    def handle(self, *args: Any, **options: Any):
-        name = options.get("name")
-        self.stdout.write(self.style.SUCCESS(f"Hello world {name}"))
         
