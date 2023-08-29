@@ -6,7 +6,9 @@ def controllers(choise):
         client = create_client()
         save_client(client)
     elif choise == "2":
-        print("display client")
-    else:
-        print("invalid choise")
+        print("Display client")
+    elif choise == "3":
+        print("Update client")
+    elif choise == "4":
+        print("Delete client")
 

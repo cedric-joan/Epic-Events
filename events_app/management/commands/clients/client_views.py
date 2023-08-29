@@ -1,10 +1,16 @@
-def menu():
-    print(
-        "1 - Create new client\n2 - Display client"
-    )
 
-    choise = input()
-    return choise
+def menu():
+    while True:
+        print(
+            "1 - Create new client\n2 - Display client\n3 - Update client\n4 - Delete client"
+        )
+
+        choise = input()
+        if not choise in ["1", "2", "3", "4"]:
+            print("Invalid choise !")
+        else:
+            return choise
+            
 
 def create_client():
     first_name = input("first_ name: ")
