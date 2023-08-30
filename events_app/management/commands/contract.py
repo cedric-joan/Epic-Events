@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from .events import menu, controllers
+from .contracts import menu, controllers
 # from events_app.models import Client
 
 class Command(BaseCommand):

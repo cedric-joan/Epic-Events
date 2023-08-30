@@ -7,7 +7,7 @@ def menu():
 
         choise = input()
         if not choise in ["1", "2", "3", "4"]:
-            print("Invalid choise !")
+            print("*** Invalid choise ***\n")
         else:
             return choise
             
@@ -21,6 +21,8 @@ def create_event():
     event_date_end = input("event_date_end: ")
     support_contact = int(input("support_contact: "))
     location = input("location: ")
+    attendees = int(input("attendees: "))
+    notes = input("notes: ")
     
     event = {
         "title": title,
@@ -31,5 +33,7 @@ def create_event():
         "event_date_end": event_date_end,
         "support_contact": support_contact,
         "location": location,
+        "attendees": attendees,
+        "notes": notes,
     }
     return event
