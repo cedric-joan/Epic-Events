@@ -58,14 +58,14 @@ class EventView(ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['fisrt_name', 'last_name', 'company_name']
+    filterset_fields = ['fisrt_name', 'last_name', 'company_name']
 
     def get_queryset(self):
-        # if self.request.user.role == "SUP":
-        #     return Event.objects.filter(sales_contact=self.request.user)
-        # elif self.request.user.role == "SAL":
-        #     return Event.objects.filter(support_contact=self.request.user)
-        # else:
+        if self.request.user.role == "SUP":
+            return Event.objects.filter(sales_contact=self.request.user)
+        elif self.request.user.role == "SAL":
+            return Event.objects.filter(support_contact=self.request.user)
+        else:
             return Event.objects.all()
     
     def perform_create(self, serializer):

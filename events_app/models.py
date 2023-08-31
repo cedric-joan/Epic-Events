@@ -12,7 +12,7 @@ class Client(models.Model):
     compagny_name = models.CharField()
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    sales_contact = models.ForeignKey(User, on_delete=models.CASCADE, related_name="clients")
+    sales_contact_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="clients")
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} {self.compagny_name} - contact: {self.sales_contact.username}"
@@ -20,8 +20,8 @@ class Client(models.Model):
 
 class Contract(models.Model):
 
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="contract_client")
-    sales_contact = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contract_sailor")
+    client_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="contract_client")
+    sales_contact_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contract_sailor")
     total_amount = models.FloatField(blank=True)
     remaining_amount = models.FloatField(blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -35,12 +35,12 @@ class Contract(models.Model):
 class Event(models.Model):
 
     title = models.CharField(null=False)
-    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, related_name="event")
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="event_client")
-    client_contact = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="email_client")
+    contract_id = models.ForeignKey(Contract, on_delete=models.CASCADE, related_name="event")
+    client_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="event_client")
+    client_contact_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="email_client")
     event_date_start = models.DateTimeField()
     event_date_end = models.DateTimeField()
-    support_contact = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_support")
+    support_contact_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="event_support")
     location = models.CharField()
     attendees = models.IntegerField()
     notes = models.TextField(blank=True)

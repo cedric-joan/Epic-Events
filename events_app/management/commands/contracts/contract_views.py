@@ -1,13 +1,16 @@
 
 def menu():
-    while True:
+    choise = ""
+    while choise != "5":
         print(
-            "1 - Create new contract\n2 - Display contract\n3 - Update contract\n4 - Delete contract"
+            "\n1 - Create new contract\n2 - Display contract\n3 - Update contract\n4 - Delete contract\n5 - Quit"
         )
 
         choise = input()
-        if not choise in ["1", "2", "3", "4"]:
+        if not choise in ["1", "2", "3", "4", "5"]:
             print("*** Invalid choise ***\n")
+        elif choise == "5":
+            break
         else:
             return choise
             
@@ -19,8 +22,8 @@ def create_contract():
     remaining_amount = input("remaining_amount: ")
     
     contract = {
-        "client": client,
-        "sales_contact": sales_contact,
+        "client_id": client,
+        "sales_contact_id": sales_contact,
         "total_amount": total_amount,
         "remaining_amount": remaining_amount,
     }

@@ -1,10 +1,11 @@
 from django.core.management.base import BaseCommand
-from .clients import menu, controllers
+from .users import menu,controllers
 
 class Command(BaseCommand):
-    help = 'Menu client'
+    help = 'Menu user'
 
+    
     def handle(self, *args, **options):
         choise = menu()
         controllers(choise)
-        self.stdout.write(self.style.SUCCESS("Successfully"))
+        self.stdout.write(self.style.SUCCESS(f'Successfully'))
