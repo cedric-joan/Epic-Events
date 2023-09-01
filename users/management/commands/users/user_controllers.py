@@ -1,24 +1,31 @@
-from users.models import User
-from .user_models import save_user
-from .user_views import create_user, menu
+from .user_models import create_user, get_users, get_user_id, update_user, delete_user
+from .user_views import input_create_user, display_users, display_delete_user, input_user_choise, input_update_user
+from crm_project.utils import validate_name
+
 
 def controllers(choise):
     if choise == "1":
-        user = create_user()
-        save_user(user)
+        user = input_create_user()
+        create_user(user)
+        validate_name()
     elif choise == "2":
-        user = get_user()
+        users = get_users()
+        display_users(users)
     elif choise == "3":
-        print("Update user")
+        users = get_users()
+        display_users(users)
+        user_id = input_user_choise()
+        user = get_user_id(user_id)
+        new_user = input_update_user(user)
+        update_user(new_user, user_id)
     elif choise == "4":
-        print("Delete user")
-    return menu()
+        users = get_users()
+        display_users(users)
+        user_id = input_user_choise()
+        user = get_user_id(user_id)
+        delete_user(user_id)
+        display_delete_user(user)
+    return 
 
-def get_user():
-    users = User.objects.all()
-    for user in users:
-        username = user.username
-        email = user.email
-        role = user.role
-    return print(f"{username}\n{email}\n{role}")
+
     

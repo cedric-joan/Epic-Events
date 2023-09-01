@@ -1,4 +1,6 @@
-# from .client_controllers import ControllersClient
+
+
+
 
 def menu():
     choise = ""
@@ -16,7 +18,7 @@ def menu():
             return choise
             
 
-def create_client():
+def input_create_client():
     first_name = input("first_name: ")
     last_name = input("last_name: ")
     email = input("email: ")
@@ -33,7 +35,7 @@ def create_client():
     }
     return client
 
-def display_client(clients):
+def display_clients(clients):
     for client in clients:
         first_name = client.first_name
         last_name = client.last_name
@@ -43,10 +45,10 @@ def display_client(clients):
         print(f"{client.id}. {first_name} {last_name} {email} {phone_number} {sales_contact_id}")
 
 
-def update_client_choise():
-    return input("Entrez l'Id du client à modifier: ")
+def input_client_choise():
+    return input("\nEntrez l'Id du client à modifier: ")
 
-def update_client(client):
+def input_update_client(client):
     first_name = input(f"current firt_name: {client.first_name} | new first_name (tapez entrer pour ignorer): ")
     last_name = input(f"current last_name: {client.last_name} | new last_name (tapez entrer pour ignorer): ")
     email = input(f"current email: {client.email} | new email (tapez entrer pour ignorer): ")
@@ -71,21 +73,5 @@ def update_client(client):
     }
     return client
 
-
-# current name: soro | new name (tapez entrer pour ignorer): 
-# current name: soro | new name (tapez entrer pour ignorer): 
-# current name: soro | new name (tapez entrer pour ignorer): 
-# current name: soro | new name (tapez entrer pour ignorer): 
-# current name: soro | new name (tapez entrer pour ignorer): 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
+def display_delete_user(client):
+    print(f"\nLe client: {client.first_name} {client.first_name} has deleted")

@@ -1,26 +1,29 @@
-from events_app.models import Contract, Event
-from .contract_views import create_contract, menu
-from .contract_models import save_contract
+from .contract_views import input_create_contract, display_contracts, display_delete_contract, input_contract_choise, input_update_contract
+from .contract_models import create_contract, get_contracts, get_contract_id, update_contract, delete_contract
+from crm_project.utils import validate_name
+
 
 def controllers(choise):
     if choise == "1":
-        contract = create_contract()
-        save_contract(contract)
+        contract = input_create_contract()
+        create_contract(contract)
     elif choise == "2":
-        contract = get_contract()
+        contracts = get_contracts()
+        display_contracts(contracts)
+        validate_name()
     elif choise == "3":
-        print("Update contract")
+        contract = get_contracts()
+        display_contracts(contract)
+        contract_id = input_contract_choise()
+        contract = get_contract_id(contract_id)
+        new_contract = input_update_contract(contract)
+        update_contract(new_contract, contract_id)
     elif choise == "4":
-        print("Delete contract")
-    return menu()
+        contracts = get_contracts()
+        display_contracts(contracts)
+        contract_id = input_contract_choise()
+        contract = get_contract_id(contract_id)
+        delete_contract(contract_id)
+        display_delete_contract(contract)
+    return 
 
-# class ControllersContract():
-
-def get_contract():
-    contracts = Contract.objects.all()
-    for contract in contracts:
-        client_id = contract.client_id
-        sales_contact_id = contract.sales_contact_id
-        total_amount = contract.total_amount
-        remaining_amount = contract.remaining_amount
-    return print(f"{client_id.id}\n{sales_contact_id.id}\n{total_amount}\n{remaining_amount}")
